@@ -14,7 +14,7 @@ to have a production build of the app you can use
 npm run build
 ```
 
-### Solution Breakdown:
+#### Solution Breakdown:
 
 - Each Report takes the most distant past of the given date ranges as it's start date and most distant future date as it's end date.
 - Each Report takes the minimum and maximum boundaries of all cities latitude and longitude as it's coordinates.
