@@ -1,0 +1,45 @@
+.reportFormRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 0 1rem;
+}
+
+.formListControls {
+  text-align: end;
+}
+
+.reportFormRowError {
+  color: var(--error-color);
+}
+
+.addReportFormRowButton {
+  background-color: var(--primary-color-100);
+  color: var(--primary-text-color);
+}
+
+.reportFormControls {
+  text-align: end;
+}
+
+.reportFormControlButton {
+  margin-inline-start: 0.5rem;
+}
+
+.chartsContainer {
+  margin-block-start: 3rem;
+}
+
+.chartsContainerChartList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 3rem;
+}
+
+.lineChart {
+  width: 100%;
+}
+
+.chartsContainerFooter {
+  margin-block-start: 3rem;
+  text-align: center;
+}
