@@ -1,0 +1,12 @@
+.pageTitle.pageTitle.pageTitle {
+  margin-bottom: unset;
+  margin-block-end: 2rem;
+}
+
+.tableActions {
+  margin-block-end: 1rem;
+}
+
+.tableSelectedItemsStatus {
+  margin-inline-start: 1rem;
+}
