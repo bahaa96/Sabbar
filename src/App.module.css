@@ -1,0 +1,23 @@
+.layout {
+  min-height: 100vh;
+}
+
+.layoutHeader {
+  padding: 0;
+  background: colorBgContainer;
+}
+
+.contentWrapper {
+  margin: 0 2rem;
+  padding-block: 1.25rem;
+}
+
+.logoWrapper {
+  height: 3rem;
+}
+
+.logo {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
