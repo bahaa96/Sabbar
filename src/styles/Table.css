@@ -13,6 +13,14 @@
 .ant-table-wrapper .ant-table-column-sorter {
   color: var(--text-inverse);
 }
+.ant-table-wrapper .ant-table-column-sorters:hover .ant-table-column-sorter {
+  color: orange;
+}
+
+.ant-table-wrapper .ant-table-column-sorter-up.active,
+.ant-table-wrapper .ant-table-column-sorter-down.active {
+  color: lightslategray;
+}
 
 .ant-table-wrapper
   .ant-table-thead
@@ -21,4 +29,12 @@
     [colspan]
   )::before {
   content: unset;
+}
+
+.ant-table-wrapper .ant-table-thead th.ant-table-column-sort {
+  background-color: var(--primary-color);
+}
+
+.ant-table-wrapper td.ant-table-column-sort {
+  background-color: var(--primary-color-100);
 }

@@ -10,3 +10,8 @@
 .tableSelectedItemsStatus {
   margin-inline-start: 1rem;
 }
+
+.tableActionsColumn {
+  display: flex;
+  justify-content: end;
+}

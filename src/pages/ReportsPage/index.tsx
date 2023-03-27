@@ -123,11 +123,11 @@ const ReportsPage = () => {
           render={(date: string) => date}
         />
         <Table.Column
-          title=""
+          title={null}
           dataIndex="reportId"
           key="reportId"
           render={(reportId: string) => (
-            <div>
+            <div className={classes.tableActionsColumn}>
               <Button type='text' size='small'>
                 <Link to={`/report/${reportId}`}>
                   <EyeOutlined />

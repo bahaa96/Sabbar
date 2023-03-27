@@ -16,6 +16,9 @@ const theme: ThemeConfig = {
     },
     Table: {
       paddingContentVerticalLG: 8,
+      controlItemBgActive: themeVars.primaryColor100,
+      controlItemBgActiveHover: themeVars.primaryColor100,
+      controlItemBgHover: themeVars.primaryColor100,
     },
   },
 };
