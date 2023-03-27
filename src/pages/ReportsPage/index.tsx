@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Typography, Table, Button, notification, } from 'antd';
 import { DeleteOutlined, EyeOutlined, EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 import type { Report } from '../../domain-models';
 
@@ -114,7 +115,11 @@ const ReportsPage = () => {
           }}
         />
         <Table.Column title="Creation Date" dataIndex="creationDate" key='creationDate'
-          sorter
+          sorter={(a: Report, b: Report) => {
+            if (dayjs(a.creationDate, 'DD/MM/YYYY').isBefore(dayjs(b.creationDate, 'DD/MM/YYYY'))) { return -1; }
+            if (dayjs(a.creationDate, 'DD/MM/YYYY').isAfter(dayjs(b.creationDate, 'DD/MM/YYYY'))) { return 1; }
+            return 0;
+          }}
           render={(date: string) => date}
         />
         <Table.Column
