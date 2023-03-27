@@ -123,13 +123,21 @@ const ReportsPage = () => {
           key="reportId"
           render={(reportId: string) => (
             <div>
-              <Link to={`/report/${reportId}`} >
-                <EyeOutlined />
-              </Link>
-              <Link to={`/report/${reportId}`} >
-                <EditOutlined />
-              </Link>
-              <Button type='text' onClick={() => handleDeleteReportsBatch([reportId])}>
+              <Button type='text' size='small'>
+                <Link to={`/report/${reportId}`}>
+                  <EyeOutlined />
+                </Link>
+              </Button>
+              <Button type='text' size='small'>
+                <Link to={`/report/${reportId}`} >
+                  <EditOutlined />
+                </Link>
+              </Button>
+              <Button
+                type='text'
+                size='small'
+                onClick={() => handleDeleteReportsBatch([reportId])}
+              >
                 <DeleteOutlined />
               </Button>
             </div>

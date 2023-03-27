@@ -29,10 +29,12 @@ const App = () => {
       <ConfigProvider theme={theme}>
         <Layout className={classes.layout}>
           <Layout.Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-            <div className={classes.logoWrapper}>
-              <img src={Logo} className={classes.logo} />
+            <div className={classes.sidebarHeader}>
+              <div className={classes.logoWrapper}>
+                <img src={Logo} className={classes.logo} />
+              </div>
             </div>
-            <Menu theme="dark" defaultSelectedKeys={['weather']} mode="inline" items={[
+            <Menu theme='dark' defaultSelectedKeys={['weather']} mode="inline" items={[
               {
                 key: 'weather',
                 label: <Link to={'/'}>Weather</Link>,

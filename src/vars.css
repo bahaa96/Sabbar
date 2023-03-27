@@ -1,7 +1,9 @@
 :root {
   --primary-color: #0f1929;
   --primary-color-100: rgba(7, 82, 109, 0.35);
+
   --primary-text-color: #0f1929;
+  --text-inverse: #fff;
 
   --error-color: #ff3333;
 

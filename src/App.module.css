@@ -4,7 +4,6 @@
 
 .layoutHeader {
   padding: 0;
-  background: colorBgContainer;
 }
 
 .contentWrapper {
@@ -12,8 +11,16 @@
   padding-block: 1.25rem;
 }
 
+.sidebarHeader {
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  margin-block-end: 0.5rem;
+}
+
 .logoWrapper {
   height: 3rem;
+  margin-inline-start: 1.5rem;
 }
 
 .logo {

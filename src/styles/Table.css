@@ -1,0 +1,24 @@
+.ant-table-wrapper .ant-table-thead .ant-table-cell {
+  background-color: var(--primary-color);
+  color: var(--text-inverse);
+  font-weight: 300;
+  border-bottom: 0;
+}
+
+.ant-table-wrapper .ant-table-thead th.ant-table-column-has-sorters:hover {
+  background-color: var(--primary-color);
+  color: var(--text-inverse);
+}
+
+.ant-table-wrapper .ant-table-column-sorter {
+  color: var(--text-inverse);
+}
+
+.ant-table-wrapper
+  .ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not(
+    [colspan]
+  )::before {
+  content: unset;
+}

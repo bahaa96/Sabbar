@@ -28,6 +28,7 @@
     "spaced-comment": "error",
     "quotes": ["error", "single"],
     "semi": "off",
-    "@typescript-eslint/semi": ["error", "always"]
+    "@typescript-eslint/semi": ["error", "always"],
+    "no-unsafe-optional-chaining": "off"
   }
 }

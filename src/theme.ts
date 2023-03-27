@@ -11,6 +11,9 @@ const theme: ThemeConfig = {
     Typography: {
       fontSizeHeading1: 24,
     },
+    Layout: {
+      colorBgHeader: themeVars.primaryColor
+    },
     Table: {
       paddingContentVerticalLG: 8,
     },
