@@ -2,6 +2,12 @@
 
 > first step, you need to rename `.example.env` file to `.env` to activate the watched environment variables file watched by the app server.
 
+This Project uses external dependencies so you need to run this command to install it:
+
+```
+npm install
+```
+
 to run the app in development mode you can use
 
 ```
