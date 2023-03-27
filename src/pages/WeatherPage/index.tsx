@@ -16,6 +16,12 @@ import transparentize from '../../lib/transparentize';
 import classes from './index.module.css';
 
 const MAXIMUM_FORECAST_DATE_RANGE = 7;
+const INITIAL_CITY_ROW_DATA = {
+  latitude: undefined,
+  longitude: undefined,
+  city: undefined,
+  dateRange: undefined
+};
 
 const fetchAllCities = async (cityName: string): Promise<{
   key: string;
@@ -115,7 +121,17 @@ const WeatherPage = () => {
   const handleSaveReport = async () => {
     const formData = reportForm.getFieldsValue();
     let savedReports: Report[] = [];
-    const savedReportsString = await localStorage.getItem('reports');
+
+    let savedReportsString;
+    try {
+      savedReportsString = await localStorage.getItem('reports');
+    } catch (e) {
+      notification.error({
+        placement: 'bottom',
+        message: 'Something went wrong',
+        description: (e as Error).message
+      });
+    }
 
     if (savedReportsString) {
       savedReports = JSON.parse(savedReportsString);
@@ -177,7 +193,15 @@ const WeatherPage = () => {
 
     const newReports: Report[] = [newReport, ...savedReports];
 
-    await localStorage.setItem('reports', JSON.stringify(newReports));
+    try {
+      await localStorage.setItem('reports', JSON.stringify(newReports));
+    } catch (e) {
+      notification.error({
+        placement: 'bottom',
+        message: 'Something went wrong',
+        description: (e as Error).message
+      });
+    }
 
     notification.success({
       message: 'Report added successfully',
@@ -205,66 +229,92 @@ const WeatherPage = () => {
       return;
     }
 
-    const citiesCharts = await Promise.all(cities.map(({ latitude, longitude, city, dateRange: [startDate, endDate] }) => {
-      let _lat: string | undefined = latitude;
-      let _lng: string | undefined = longitude;
-      if (!latitude || !longitude) {
-        [_lat, _lng] = city.value.split(',');
-      }
+    try {
+      const citiesCharts = await Promise.all(cities.map(({ latitude, longitude, city, dateRange: [startDate, endDate] }) => {
+        let _lat: string | undefined = latitude;
+        let _lng: string | undefined = longitude;
+        if (!latitude || !longitude) {
+          [_lat, _lng] = city.value.split(',');
+        }
 
-      return requestFetchCityForecast({
-        latitude: _lat,
-        longitude: _lng,
-        startDate: startDate.format('YYYY-MM-DD'),
-        endDate: endDate.format('YYYY-MM-DD'),
-        weatherVariables: weatherVariables,
+        return requestFetchCityForecast({
+          latitude: _lat,
+          longitude: _lng,
+          startDate: startDate.format('YYYY-MM-DD'),
+          endDate: endDate.format('YYYY-MM-DD'),
+          weatherVariables: weatherVariables,
+        });
+      }));
+      setChartsData(citiesCharts);
+    } catch (e) {
+      notification.error({
+        placement: 'bottom',
+        message: 'Something went wrong',
+        description: (e as Error).message
       });
-    }));
-    setChartsData(citiesCharts);
+    }
 
   };
 
   useEffect(() => {
     (async () => {
-      if (reportId) {
-        setIsLoadingReportData(true);
-        const reportsDataString = await localStorage.getItem('reports');
-        if (reportsDataString) {
-          const reportsData: Report[] = JSON.parse(reportsDataString);
-          const targetReportData = reportsData.find(report => report.reportId === reportId);
-          if (targetReportData) {
-            reportForm.setFieldsValue({
-              cities: targetReportData.report.map((city) => {
-                return {
-                  city: {
-                    key: `${city.latitude},${city.longitude}`,
-                    label: city.cityName,
-                    value: `${city.latitude},${city.longitude}`,
-                  },
-                  latitude: city.latitude,
-                  longitude: city.longitude,
-                  dateRange: [dayjs(city.dateRange[0], 'DD/MM/YYYY'), dayjs(city.dateRange[1], 'DD/MM/YYYY')],
-                };
-              })
-            });
-            onFinish({
-              cities: targetReportData?.report.map((city) => {
+      if (!reportId) {
+        setChartsData([]);
+        reportForm.resetFields();
+        reportForm.setFieldsValue({
+          cities: [INITIAL_CITY_ROW_DATA]
+        });
+        return;
+      }
 
-                return {
-                  city: {
-                    key: `${city.latitude},${city.longitude}`,
-                    label: city.cityName,
-                    value: `${city.latitude},${city.longitude}`,
-                  },
-                  latitude: city.latitude,
-                  longitude: city.longitude,
-                  dateRange: [dayjs(city.dateRange[0], 'DD/MM/YYYY'), dayjs(city.dateRange[1], 'DD/MM/YYYY')],
-                };
-              }), weatherVariables: targetReportData?.weatherVariables
-            });
+      setIsLoadingReportData(true);
 
-            setIsLoadingReportData(false);
-          }
+      let reportsDataString;
+      try {
+        reportsDataString = await localStorage.getItem('reports');
+      } catch (e) {
+        notification.error({
+          placement: 'bottom',
+          message: 'Something went wrong',
+          description: (e as Error).message
+        });
+      }
+
+      if (reportsDataString) {
+        const reportsData: Report[] = JSON.parse(reportsDataString);
+        const targetReportData = reportsData.find(report => report.reportId === reportId);
+        if (targetReportData) {
+          reportForm.setFieldsValue({
+            cities: targetReportData.report.map((city) => {
+              return {
+                city: {
+                  key: `${city.latitude},${city.longitude}`,
+                  label: city.cityName,
+                  value: `${city.latitude},${city.longitude}`,
+                },
+                latitude: city.latitude,
+                longitude: city.longitude,
+                dateRange: [dayjs(city.dateRange[0], 'DD/MM/YYYY'), dayjs(city.dateRange[1], 'DD/MM/YYYY')],
+              };
+            })
+          });
+          onFinish({
+            cities: targetReportData?.report.map((city) => {
+
+              return {
+                city: {
+                  key: `${city.latitude},${city.longitude}`,
+                  label: city.cityName,
+                  value: `${city.latitude},${city.longitude}`,
+                },
+                latitude: city.latitude,
+                longitude: city.longitude,
+                dateRange: [dayjs(city.dateRange[0], 'DD/MM/YYYY'), dayjs(city.dateRange[1], 'DD/MM/YYYY')],
+              };
+            }), weatherVariables: targetReportData?.weatherVariables
+          });
+
+          setIsLoadingReportData(false);
         }
       }
     })();
@@ -287,9 +337,7 @@ const WeatherPage = () => {
         >
           <Form.List
             name="cities"
-            initialValue={[
-              { latitude: undefined, longitude: undefined, city: undefined, dateRange: undefined }
-            ]}
+            initialValue={[INITIAL_CITY_ROW_DATA]}
           >
             {(fields, { add, remove }) => (
               <>

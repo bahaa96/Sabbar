@@ -35,7 +35,7 @@ const App = () => {
             <Menu theme="dark" defaultSelectedKeys={['weather']} mode="inline" items={[
               {
                 key: 'weather',
-                label: <Link to={'/'} reloadDocument>Weather</Link>,
+                label: <Link to={'/'}>Weather</Link>,
                 icon: <FireOutlined />,
               },
               {

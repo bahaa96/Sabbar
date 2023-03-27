@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Typography, Table, Button, } from 'antd';
+import { Typography, Table, Button, notification, } from 'antd';
 import { DeleteOutlined, EyeOutlined, EditOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 
 import type { Report } from '../../domain-models';
@@ -17,34 +16,51 @@ const ReportsPage = () => {
   const hasSelected = selectedRowKeys.length > 0;
 
   const handleDeleteReportsBatch = async (targetReportIds: React.Key[]) => {
-    setIsLoading(true);
-    // network loading simulation 
-    await (new Promise(res => setTimeout(res, 500)));
-    const reports: Report[] = JSON.parse(await localStorage.getItem('reports') || '');
-    const newReports = reports.filter((report: Report) => {
-      let isMatching = false;
-      for (let i = 0; i < targetReportIds.length; i++) {
-        if (targetReportIds[i] == report.reportId) {
-          isMatching = true;
-          break;
+    try {
+      setIsLoading(true);
+      // network loading simulation 
+      await (new Promise(res => setTimeout(res, 500)));
+      const reports: Report[] = JSON.parse(await localStorage.getItem('reports') || '');
+      const newReports = reports.filter((report: Report) => {
+        let isMatching = false;
+        for (let i = 0; i < targetReportIds.length; i++) {
+          if (targetReportIds[i] == report.reportId) {
+            isMatching = true;
+            break;
+          }
         }
-      }
-      return !isMatching;
-    });
-    setReportsList(newReports);
-    localStorage.setItem('reports', JSON.stringify(newReports));
-    setSelectedRowKeys([]);
-    setIsLoading(false);
+        return !isMatching;
+      });
+      setReportsList(newReports);
+      localStorage.setItem('reports', JSON.stringify(newReports));
+      setSelectedRowKeys([]);
+      setIsLoading(false);
+    } catch (e) {
+      notification.error({
+        placement: 'bottom',
+        message: 'Something went wrong',
+        description: (e as Error).message
+      });
+    }
   };
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
       // network loading simulation 
-      await (new Promise(res => setTimeout(res, 500)));
-      const reportsData = JSON.parse(await localStorage.getItem('reports') || '');
-      setReportsList(reportsData);
-      setIsLoading(false);
+      try {
+        await (new Promise(res => setTimeout(res, 500)));
+        const reportsData = JSON.parse(await localStorage.getItem('reports') || '');
+        setReportsList(reportsData);
+        setIsLoading(false);
+      } catch (e) {
+        notification.error({
+          placement: 'bottom',
+          message: 'Something went wrong',
+          description: (e as Error).message
+        });
+      }
+
     })();
   }, []);
 
